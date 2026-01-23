@@ -565,7 +565,7 @@
                 <div class="divider"></div>
                 <h2 class="subtitle" data-i18n="subtitle">Intelligent Scheduling AI</h2>
                 <p class="description">
-                    <strong data-i18n="description">Mengelola waktu dengan kecerdasan buatan dan otomatisasi cerdas</strong>
+                    <strong data-i18n="description">Mengelola waktu dengan kecerdasan buatan otomatisasi cerdas</strong>
                 </p>
                 <a href="#" class="cta-button" data-i18n="cta">MULAI SEKARANG</a>
             </div>
