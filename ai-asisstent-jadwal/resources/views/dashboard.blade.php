@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AION - Intelligent Scheduling AI</title>
+    <title>Abang AI - Asisten AI Cerdas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,243 +15,32 @@
         }
 
         body {
-            font-family: system-ui, -apple-system, sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
             overflow-x: hidden;
         }
 
-        .hero-section {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a0000 100%);
-        }
-
-        #canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .grid-overlay {
-            position: absolute;
-            inset: 0;
-            opacity: 0.05;
-            pointer-events: none;
-            background-image:
-                linear-gradient(rgba(255, 0, 0, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-        }
-
-        .content-wrapper {
-            position: relative;
-            height: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 3rem;
-            z-index: 10;
-        }
-
-        .text-content {
-            width: 50%;
-            transition: opacity 0.3s ease;
-        }
-
-        .logo {
-            font-size: 6rem;
-            font-weight: bold;
-            color: #ffffff;
-            letter-spacing: 0.1em;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 40px rgba(255, 0, 0, 0.3);
-        }
-
-        .divider {
-            height: 2px;
-            width: 8rem;
-            background: linear-gradient(to right, #ff0000, transparent);
-            margin-bottom: 1.5rem;
-        }
-
-        .subtitle {
-            font-size: 2rem;
-            color: #ffcccc;
-            font-weight: 300;
-            letter-spacing: 0.05em;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
-        }
-
-        .description {
-            font-size: 1.25rem;
-            color: #d1d5db;
-            max-width: 40rem;
-            margin-bottom: 2.5rem;
-            line-height: 1.8;
-        }
-
-        .description strong {
-            font-weight: 700;
-            color: #ffffff;
-        }
-
-        .cta-button {
-            position: relative;
-            display: inline-block;
-            padding: 1rem 2rem;
-            border: 2px solid #ff0000;
-            border-radius: 9999px;
-            color: #ffffff;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            background: rgba(255, 0, 0, 0.1);
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
-            cursor: pointer;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .cta-button:hover {
-            background: rgba(255, 0, 0, 0.2);
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .logo-3d-container {
-            position: relative;
-            width: 26rem;
-            height: 26rem;
-            flex-shrink: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .ambient-glow {
-            position: absolute;
-            inset: -2rem;
-            background: radial-gradient(circle, rgba(255, 0, 0, 0.3), transparent 70%);
-            filter: blur(40px);
-            animation: pulse-glow 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1); }
-        }
-
-        .letter-a {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 12rem;
-            height: 14rem;
-            z-index: 10;
-        }
-
-        .letter-a svg {
-            width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8))
-                    drop-shadow(0 0 40px rgba(255, 0, 0, 0.4));
-        }
-
-        .orbit-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            border: 2px solid #ff0000;
-            border-radius: 50%;
-            opacity: 0.6;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-        }
-
-        .orbit-ring-1 {
-            width: 24rem;
-            height: 24rem;
-            margin: -12rem 0 0 -12rem;
-            animation: spin 8s linear infinite;
-        }
-
-        .orbit-ring-2 {
-            width: 20rem;
-            height: 20rem;
-            margin: -10rem 0 0 -10rem;
-            animation: spin 12s linear infinite reverse;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .orbit-dot {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #ff0000;
-            border-radius: 50%;
-            top: 0;
-            left: 50%;
-            margin-left: -4px;
-            box-shadow: 0 0 15px #ff0000;
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 2rem;
-            width: 24px;
-            height: 40px;
-            border: 2px solid rgba(255, 0, 0, 0.5);
-            border-radius: 20px;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            padding-top: 8px;
-            animation: bounce 2s ease-in-out infinite;
-        }
-
-        .scroll-dot {
-            width: 4px;
-            height: 8px;
-            background: #ff0000;
-            border-radius: 2px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
+        /* Navbar - Tipis */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 100;
-            padding: 1.5rem 2rem;
+            background: #E31E24;
+            box-shadow: 0 2px 10px rgba(227, 30, 36, 0.1);
+            height: 60px;
+        }
+
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 0, 0, 0.2);
+            height: 100%;
         }
 
         .navbar-logo {
@@ -258,444 +50,598 @@
             text-decoration: none;
         }
 
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: radial-gradient(circle, #ff0000, #cc0000);
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        .logo-box {
+            width: 36px;
+            height: 36px;
+            background: #ffffff;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            color: #ffffff;
-            font-size: 1.25rem;
+            font-weight: 800;
+            color: #E31E24;
+            font-size: 1.1rem;
         }
 
         .logo-text {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.3rem;
+            font-weight: 800;
             color: #ffffff;
-            letter-spacing: 0.1em;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            letter-spacing: -0.02em;
         }
 
-        .language-switcher {
+        .nav-links {
             display: flex;
-            gap: 0.5rem;
-            background: rgba(255, 0, 0, 0.05);
-            padding: 0.5rem;
-            border-radius: 25px;
-            border: 1px solid rgba(255, 0, 0, 0.2);
+            align-items: center;
+            gap: 2rem;
         }
 
-        .lang-btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 20px;
-            background: transparent;
-            color: #ffcccc;
-            cursor: pointer;
+        .nav-link {
+            color: #ffffff;
+            text-decoration: none;
             font-weight: 500;
+            font-size: 0.95rem;
+            transition: opacity 0.3s;
+        }
+
+        .nav-link:hover {
+            opacity: 0.8;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-login {
+            padding: 0.5rem 1.5rem;
+            background: transparent;
+            border: 2px solid #ffffff;
+            border-radius: 8px;
+            color: #ffffff;
+            font-weight: 600;
             font-size: 0.9rem;
-            transition: all 0.3s ease;
-            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
         }
 
-        .lang-btn:hover {
-            color: #ff0000;
+        .btn-login:hover {
+            background: #ffffff;
+            color: #E31E24;
         }
 
-        .lang-btn.active {
-            background: rgba(255, 0, 0, 0.2);
-            color: #ff0000;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        .btn-register {
+            padding: 0.5rem 1.5rem;
+            background: #ffffff;
+            border: 2px solid #ffffff;
+            border-radius: 8px;
+            color: #E31E24;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
         }
 
-        .second-section {
+        .btn-register:hover {
+            background: transparent;
+            color: #ffffff;
+        }
+
+        /* Hero Section */
+        .hero-section {
             position: relative;
             min-height: 100vh;
-            background: #0a0a0a;
-            padding: 6rem 2rem;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #E31E24 0%, #C41E3A 100%);
+            padding-top: 60px;
             overflow: hidden;
         }
 
-        .second-section::before {
-            content: '';
+        .hero-pattern {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #ff0000, transparent);
-            opacity: 0.5;
+            inset: 0;
+            opacity: 0.05;
+            background-image:
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.1) 35px, rgba(255,255,255,.1) 70px);
         }
 
-        .section-content {
-            max-width: 1400px;
-            margin: 0 auto;
+        .hero-content {
             position: relative;
             z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text {
+            color: #ffffff;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-primary {
+            padding: 1rem 2rem;
+            background: #ffffff;
+            border: none;
+            border-radius: 12px;
+            color: #E31E24;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: 2px solid #ffffff;
+            border-radius: 12px;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Image/Illustration */
+        .hero-visual {
+            position: relative;
+        }
+
+        .hero-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .ai-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #E31E24, #C41E3A);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .card-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .chat-bubble {
+            background: #f5f5f5;
+            padding: 1.25rem;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 0.4rem;
+            padding: 1rem;
+        }
+
+        .typing-dot {
+            width: 10px;
+            height: 10px;
+            background: #E31E24;
+            border-radius: 50%;
+            animation: typing 1.4s ease-in-out infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 6rem 2rem;
+            background: #ffffff;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: #FEE2E2;
+            color: #E31E24;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
 
         .section-title {
-            font-size: 3.5rem;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: #ffffff;
-            text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-            letter-spacing: 0.05em;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
-            margin-top: 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .feature-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 0, 0, 0.2);
+            background: #ffffff;
+            border: 2px solid #f0f0f0;
             border-radius: 20px;
             padding: 2.5rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #ff0000, transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s;
         }
 
         .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: #ff0000;
-            box-shadow: 0 10px 40px rgba(255, 0, 0, 0.3);
-            background: rgba(255, 0, 0, 0.05);
-        }
-
-        .feature-card:hover::before {
-            opacity: 1;
+            border-color: #E31E24;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(227, 30, 36, 0.1);
         }
 
         .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, rgba(255, 0, 0, 0.3), rgba(255, 0, 0, 0.1));
-            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #E31E24, #C41E3A);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 2rem;
             margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
         }
 
         .feature-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #ff3333;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1a1a1a;
             margin-bottom: 1rem;
-            letter-spacing: 0.05em;
         }
 
         .feature-description {
-            color: #b0b0b0;
-            line-height: 1.8;
+            color: #666;
+            line-height: 1.7;
             font-size: 1rem;
         }
 
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 1rem;
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #E31E24 0%, #C41E3A 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .cta-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .navbar-content {
+                padding: 0 1rem;
             }
-            .logo-text {
-                font-size: 1.25rem;
+
+            .nav-links {
+                display: none;
             }
-            .lang-btn {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.8rem;
+
+            .mobile-menu-btn {
+                display: block;
             }
-            .content-wrapper {
-                padding: 0 2rem;
-                flex-direction: column;
-                justify-content: center;
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 3rem 1rem;
             }
-            .text-content {
-                width: 100%;
-                text-align: center;
-            }
-            .logo { font-size: 4rem; }
-            .subtitle { font-size: 1.5rem; }
-            .description { font-size: 1rem; }
-            .divider { margin: 1.5rem auto; }
-            .logo-3d-container {
-                width: 20rem;
-                height: 20rem;
-            }
-            .letter-a {
-                width: 9rem;
-                height: 11rem;
-            }
-            .orbit-ring-1 {
-                width: 18rem;
-                height: 18rem;
-                margin: -9rem 0 0 -9rem;
-            }
-            .orbit-ring-2 {
-                width: 16rem;
-                height: 16rem;
-                margin: -8rem 0 0 -8rem;
-            }
-            .section-title {
+
+            .hero-title {
                 font-size: 2.5rem;
             }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .hero-visual {
+                order: -1;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
             .features-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .cta-title {
+                font-size: 2rem;
+            }
+
+            .nav-buttons {
+                gap: 0.5rem;
+            }
+
+            .btn-login, .btn-register {
+                padding: 0.4rem 1rem;
+                font-size: 0.85rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar">
-        <a href="/" class="navbar-logo">
-            <div class="logo-icon">A</div>
-            <span class="logo-text">AION</span>
-        </a>
-        <div class="language-switcher">
-            <button class="lang-btn active" data-lang="id">ID</button>
-            <button class="lang-btn" data-lang="en">EN</button>
+        <div class="navbar-content">
+            <a href="/" class="navbar-logo">
+                <div class="logo-box">AI</div>
+                <span class="logo-text">Abang AI</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="#beranda" class="nav-link">Beranda</a>
+                <a href="#fitur" class="nav-link">Fitur</a>
+                <a href="#tentang" class="nav-link">Tentang</a>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="/login" class="btn-login">Masuk</a>
+                <a href="/login" class="btn-register">Daftar</a>
+            </div>
+
+            <button class="mobile-menu-btn">☰</button>
         </div>
     </nav>
 
-    <div class="hero-section">
-        <canvas id="canvas"></canvas>
-        <div class="grid-overlay"></div>
-
-        <div class="content-wrapper">
-            <div class="text-content" id="textContent">
-                <h1 class="logo">AION</h1>
-                <div class="divider"></div>
-                <h2 class="subtitle" data-i18n="subtitle">Intelligent Scheduling AI</h2>
-                <p class="description">
-                    <strong data-i18n="description">Mengelola waktu dengan kecerdasan buatan dan otomatisasi cerdas</strong>
+    <!-- Hero Section -->
+    <section class="hero-section" id="beranda">
+        <div class="hero-pattern"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-badge">🚀 AI Terbaru 2026</div>
+                <h1 class="hero-title">Asisten AI Cerdas untuk Kehidupan Anda</h1>
+                <p class="hero-subtitle">
+                    Abang AI siap membantu Anda mengelola jadwal, meningkatkan produktivitas,
+                    dan menjawab pertanyaan dengan cepat dan akurat.
                 </p>
-                <a href="/chat" class="cta-button" data-i18n="cta">MULAI SEKARANG</a>
-            </div>
-
-            <div class="logo-3d-container" id="logoContainer">
-                <div class="ambient-glow"></div>
-
-                <div class="letter-a">
-                    <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="aGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" style="stop-color:#ff0000;stop-opacity:1" />
-                                <stop offset="50%" style="stop-color:#cc0000;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#990000;stop-opacity:1" />
-                            </linearGradient>
-                        </defs>
-                        <path d="M 100 20 L 180 220 L 140 220 L 125 180 L 75 180 L 60 220 L 20 220 Z"
-                              fill="url(#aGradient)" stroke="#ff0000" stroke-width="2"/>
-                        <path d="M 100 80 L 115 120 L 85 120 Z" fill="#0a0a0a"/>
-                        <rect x="75" y="140" width="50" height="20" fill="#0a0a0a"/>
-                    </svg>
-                </div>
-
-                <div class="orbit-ring orbit-ring-1">
-                    <div class="orbit-dot"></div>
-                </div>
-                <div class="orbit-ring orbit-ring-2">
-                    <div class="orbit-dot"></div>
+                <div class="hero-cta">
+                    <a href="/login" class="btn-primary">Mulai Sekarang</a>
+                    <a href="#fitur" class="btn-secondary">Pelajari Lebih Lanjut</a>
                 </div>
             </div>
-        </div>
 
-        <div class="scroll-indicator">
-            <div class="scroll-dot"></div>
-        </div>
-    </div>
-
-    <section class="second-section">
-        <div class="section-content">
-            <h2 class="section-title" data-i18n="features-title">Fitur Unggulan</h2>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🤖</div>
-                    <h3 class="feature-title" data-i18n="feature1-title">AI-Powered Scheduling</h3>
-                    <p class="feature-description" data-i18n="feature1-desc">
-                        Sistem penjadwalan otomatis yang mempelajari pola dan preferensi Anda untuk mengoptimalkan waktu secara cerdas.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3 class="feature-title" data-i18n="feature2-title">Smart Automation</h3>
-                    <p class="feature-description" data-i18n="feature2-desc">
-                        Otomatisasi tugas berulang dan pengingat cerdas yang beradaptasi dengan rutinitas harian Anda.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3 class="feature-title" data-i18n="feature3-title">Advanced Analytics</h3>
-                    <p class="feature-description" data-i18n="feature3-desc">
-                        Analisis mendalam tentang produktivitas dan penggunaan waktu dengan visualisasi data yang intuitif.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🔄</div>
-                    <h3 class="feature-title" data-i18n="feature4-title">Real-time Sync</h3>
-                    <p class="feature-description" data-i18n="feature4-desc">
-                        Sinkronisasi real-time di semua perangkat Anda untuk akses jadwal kapan saja, di mana saja.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3 class="feature-title" data-i18n="feature5-title">Goal Tracking</h3>
-                    <p class="feature-description" data-i18n="feature5-desc">
-                        Pelacakan tujuan otomatis dengan rekomendasi AI untuk mencapai target Anda lebih efisien.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3 class="feature-title" data-i18n="feature6-title">Secure & Private</h3>
-                    <p class="feature-description" data-i18n="feature6-desc">
-                        Enkripsi end-to-end dan keamanan tingkat enterprise untuk melindungi data pribadi Anda.
-                    </p>
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <div class="card-header">
+                        <div class="ai-avatar">🤖</div>
+                        <div>
+                            <div class="card-title">Abang AI</div>
+                            <div class="card-subtitle">Asisten Virtual Anda</div>
+                        </div>
+                    </div>
+                    <div class="chat-bubble">
+                        Halo! Saya Abang AI, siap membantu Anda. Apa yang bisa saya bantu hari ini?
+                    </div>
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Features Section -->
+    <section class="features-section" id="fitur">
+        <div class="section-header">
+            <div class="section-badge">Fitur Unggulan</div>
+            <h2 class="section-title">Kenapa Memilih Abang AI?</h2>
+            <p class="section-subtitle">
+                Teknologi AI terdepan yang dirancang untuk memudahkan aktivitas sehari-hari Anda
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3 class="feature-title">AI Cerdas</h3>
+                <p class="feature-description">
+                    Ditenagai oleh teknologi AI terbaru yang dapat memahami konteks
+                    dan memberikan jawaban yang relevan dan akurat.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3 class="feature-title">Manajemen Jadwal</h3>
+                <p class="feature-description">
+                    Kelola jadwal harian Anda dengan mudah. Abang AI akan mengingatkan
+                    tugas penting dan membantu mengatur waktu lebih efisien.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Respon Cepat</h3>
+                <p class="feature-description">
+                    Dapatkan jawaban instan untuk berbagai pertanyaan Anda.
+                    Abang AI siap membantu 24/7 tanpa henti.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Personalisasi</h3>
+                <p class="feature-description">
+                    AI yang belajar dari preferensi Anda dan memberikan
+                    rekomendasi yang disesuaikan dengan kebutuhan pribadi.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3 class="feature-title">Aman & Privat</h3>
+                <p class="feature-description">
+                    Data Anda dilindungi dengan enkripsi tingkat enterprise.
+                    Privasi adalah prioritas utama kami.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">Multi-Platform</h3>
+                <p class="feature-description">
+                    Akses Abang AI dari mana saja - web, mobile, atau desktop.
+                    Sinkronisasi otomatis di semua perangkat.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Siap Mulai dengan Abang AI?</h2>
+            <p class="cta-subtitle">
+                Bergabunglah dengan ribuan pengguna yang sudah merasakan manfaat Abang AI
+            </p>
+            <a href="/login" class="btn-primary">Daftar Gratis Sekarang</a>
+        </div>
+    </section>
+
     <script>
-        const translations = {
-            id: {
-                subtitle: 'Intelligent Scheduling AI',
-                description: 'Mengelola waktu dengan kecerdasan buatan dan otomatisasi cerdas',
-                cta: 'MULAI SEKARANG',
-                'features-title': 'Fitur Unggulan',
-                'feature1-title': 'AI-Powered Scheduling',
-                'feature1-desc': 'Sistem penjadwalan otomatis yang mempelajari pola dan preferensi Anda untuk mengoptimalkan waktu secara cerdas.',
-                'feature2-title': 'Smart Automation',
-                'feature2-desc': 'Otomatisasi tugas berulang dan pengingat cerdas yang beradaptasi dengan rutinitas harian Anda.',
-                'feature3-title': 'Advanced Analytics',
-                'feature3-desc': 'Analisis mendalam tentang produktivitas dan penggunaan waktu dengan visualisasi data yang intuitif.',
-                'feature4-title': 'Real-time Sync',
-                'feature4-desc': 'Sinkronisasi real-time di semua perangkat Anda untuk akses jadwal kapan saja, di mana saja.',
-                'feature5-title': 'Goal Tracking',
-                'feature5-desc': 'Pelacakan tujuan otomatis dengan rekomendasi AI untuk mencapai target Anda lebih efisien.',
-                'feature6-title': 'Secure & Private',
-                'feature6-desc': 'Enkripsi end-to-end dan keamanan tingkat enterprise untuk melindungi data pribadi Anda.'
-            },
-            en: {
-                subtitle: 'Intelligent Scheduling AI',
-                description: 'Manage time with artificial intelligence and smart automation',
-                cta: 'GET STARTED',
-                'features-title': 'Key Features',
-                'feature1-title': 'AI-Powered Scheduling',
-                'feature1-desc': 'Automated scheduling system that learns your patterns and preferences to optimize time intelligently.',
-                'feature2-title': 'Smart Automation',
-                'feature2-desc': 'Automate repetitive tasks and smart reminders that adapt to your daily routine.',
-                'feature3-title': 'Advanced Analytics',
-                'feature3-desc': 'Deep insights into productivity and time usage with intuitive data visualization.',
-                'feature4-title': 'Real-time Sync',
-                'feature4-desc': 'Real-time synchronization across all your devices for schedule access anytime, anywhere.',
-                'feature5-title': 'Goal Tracking',
-                'feature5-desc': 'Automatic goal tracking with AI recommendations to achieve your targets more efficiently.',
-                'feature6-title': 'Secure & Private',
-                'feature6-desc': 'End-to-end encryption and enterprise-grade security to protect your personal data.'
-            }
-        };
-
-        let currentLang = 'id';
-
-        const langButtons = document.querySelectorAll('.lang-btn');
-        langButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lang = btn.dataset.lang;
-                if (lang === currentLang) return;
-                langButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentLang = lang;
-                updateLanguage();
-            });
-        });
-
-        function updateLanguage() {
-            const elements = document.querySelectorAll('[data-i18n]');
-            elements.forEach(el => {
-                const key = el.dataset.i18n;
-                if (translations[currentLang][key]) {
-                    el.textContent = translations[currentLang][key];
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
             });
-        }
-
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const particles = Array.from({ length: 60 }, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            size: Math.random() * 2 + 0.5,
-            speedX: (Math.random() - 0.5) * 0.3,
-            speedY: (Math.random() - 0.5) * 0.3,
-            opacity: Math.random() * 0.5 + 0.2
-        }));
-
-        function animate() {
-            ctx.fillStyle = '#0a0a0a';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            particles.forEach(p => {
-                p.x += p.speedX;
-                p.y += p.speedY;
-
-                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 0, 0, ${p.opacity})`;
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = '#ff0000';
-                ctx.fill();
-                ctx.shadowBlur = 0;
-            });
-
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            const textOpacity = Math.max(0, 1 - scrollY / 300);
-            document.getElementById('textContent').style.opacity = textOpacity;
-            document.getElementById('logoContainer').style.opacity = textOpacity;
-        });
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
         });
     </script>
 </body>
