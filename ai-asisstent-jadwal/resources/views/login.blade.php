@@ -57,6 +57,7 @@
             cursor: pointer;
             transition: all 0.3s;
             text-decoration: none;
+            z-index: 100;
         }
 
         .home-btn:hover {
@@ -68,6 +69,8 @@
         .auth-form-container {
             width: 100%;
             max-width: 440px;
+            position: relative;
+            z-index: 10;
         }
 
         .logo-section {
@@ -171,7 +174,7 @@
         .form-input {
             width: 100%;
             padding: 0.875rem 1rem;
-            background: #f9fafb;
+            background: #ffffff;
             border: 2px solid #e5e7eb;
             border-radius: 10px;
             color: #1a1a1a;
@@ -291,7 +294,7 @@
         }
 
         .google-btn:hover {
-            background: #f9fafb;
+            background: #ffffff;
             border-color: #E31E24;
         }
 
@@ -351,7 +354,7 @@
 
         /* Right Side - Illustration */
         .auth-right {
-            background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -369,79 +372,6 @@
             justify-content: center;
         }
 
-        /* Cloud decorations */
-        .cloud {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 100px;
-        }
-
-        .cloud-1 {
-            width: 180px;
-            height: 60px;
-            top: 10%;
-            right: 10%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .cloud-1::before,
-        .cloud-1::after {
-            content: '';
-            position: absolute;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 100px;
-        }
-
-        .cloud-1::before {
-            width: 80px;
-            height: 80px;
-            top: -30px;
-            left: 20px;
-        }
-
-        .cloud-1::after {
-            width: 100px;
-            height: 70px;
-            top: -20px;
-            right: 20px;
-        }
-
-        .cloud-2 {
-            width: 150px;
-            height: 50px;
-            top: 25%;
-            left: 5%;
-            animation: float 8s ease-in-out infinite;
-            animation-delay: 2s;
-        }
-
-        .cloud-2::before,
-        .cloud-2::after {
-            content: '';
-            position: absolute;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 100px;
-        }
-
-        .cloud-2::before {
-            width: 70px;
-            height: 70px;
-            top: -25px;
-            left: 15px;
-        }
-
-        .cloud-2::after {
-            width: 80px;
-            height: 60px;
-            top: -15px;
-            right: 15px;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
         /* AI Robot Illustration */
         .robot-illustration {
             text-align: center;
@@ -449,21 +379,17 @@
             z-index: 10;
         }
 
-        .robot-emoji {
-            font-size: 15rem;
+        .robot-image {
+            max-width: 650px;
+            width: 100%;
+            height: auto;
             display: block;
-            animation: bounce 3s ease-in-out infinite;
-            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(5deg); }
+            margin: 0 auto;
         }
 
         .robot-text {
             margin-top: 2rem;
-            color: #ffffff;
+            color: #1a1a1a;
             text-align: center;
         }
 
@@ -471,13 +397,15 @@
             font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 0.75rem;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            text-shadow: none;
+            color: #E31E24;
         }
 
         .robot-text p {
             font-size: 1.1rem;
-            opacity: 0.95;
+            opacity: 0.8;
             font-weight: 500;
+            color: #4a5568;
         }
 
         /* Responsive */
@@ -645,16 +573,9 @@
 
         <!-- Right Side - Illustration -->
         <div class="auth-right">
-            <div class="cloud cloud-1"></div>
-            <div class="cloud cloud-2"></div>
-
             <div class="illustration-container">
                 <div class="robot-illustration">
-                    <span class="robot-emoji">🤖</span>
-                    <div class="robot-text">
-                        <h2>Abang AI</h2>
-                        <p>Asisten AI pintar untuk semua kebutuhan Anda</p>
-                    </div>
+                    <img src="{{ asset('images/undraw_writing-online_x665.png') }}" alt="Abang AI Illustration" class="robot-image">
                 </div>
             </div>
         </div>
