@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abang AI - Chat</title>
+    <title>Abang AI - Penjadwalan Otomatis (FIXED)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -383,6 +383,7 @@
             line-height: 1.6;
             word-wrap: break-word;
             font-size: 0.95rem;
+            white-space: pre-wrap;
         }
 
         .message.user .message-bubble {
@@ -567,6 +568,72 @@
             cursor: not-allowed;
         }
 
+        /* Debug Panel */
+        .debug-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            max-width: 400px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .debug-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .debug-panel::-webkit-scrollbar-thumb {
+            background: #666;
+            border-radius: 3px;
+        }
+
+        .debug-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #333;
+        }
+
+        .debug-title {
+            font-weight: bold;
+            color: #00ff00;
+        }
+
+        .debug-close {
+            background: none;
+            border: none;
+            color: #ff0000;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .debug-log {
+            margin-top: 0.5rem;
+            color: #00ff00;
+        }
+
+        .debug-error {
+            color: #ff0000;
+        }
+
+        .debug-success {
+            color: #00ff00;
+        }
+
+        .debug-info {
+            color: #00bfff;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .sidebar {
@@ -615,10 +682,24 @@
             .overlay.active {
                 display: block;
             }
+
+            .debug-panel {
+                max-width: calc(100vw - 40px);
+                font-size: 0.7rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Debug Panel -->
+    <div class="debug-panel" id="debugPanel">
+        <div class="debug-header">
+            <span class="debug-title">🔍 Debug Console</span>
+            <button class="debug-close" onclick="toggleDebug()">×</button>
+        </div>
+        <div id="debugLog">Menunggu aktivitas...</div>
+    </div>
+
     <div class="overlay" id="overlay"></div>
 
     <div class="container">
@@ -626,7 +707,7 @@
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo-section">
-                    <div class="logo-box">AI</div>
+                    <div class="logo-box">📅</div>
                     <span class="logo-text">Abang AI</span>
                 </div>
 
@@ -665,7 +746,7 @@
         <main class="main-content">
             <header class="chat-header">
                 <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-                <h1 class="chat-title">Abang AI Assistant</h1>
+                <h1 class="chat-title">Abang AI - Penjadwalan Otomatis</h1>
                 <div class="status-indicator">
                     <div class="status-dot"></div>
                     <span>Online</span>
@@ -674,25 +755,25 @@
 
             <div class="chat-messages" id="chatMessages">
                 <div class="welcome-screen" id="welcomeScreen">
-                    <div class="welcome-logo">🤖</div>
-                    <h2 class="welcome-title">Halo! Saya Abang AI</h2>
-                    <p class="welcome-subtitle">Asisten AI Anda siap membantu. Apa yang bisa saya bantu hari ini?</p>
+                    <div class="welcome-logo">📅</div>
+                    <h2 class="welcome-title">Selamat Datang di Abang AI</h2>
+                    <p class="welcome-subtitle">Asisten Penjadwalan Otomatis Anda. Kelola jadwal dengan mudah!</p>
                     <div class="suggestion-cards">
-                        <div class="suggestion-card" onclick="useSuggestion('Bagaimana cara mengatur jadwal harian saya?')">
-                            <div class="suggestion-icon">📅</div>
-                            <div class="suggestion-text">Atur Jadwal</div>
+                        <div class="suggestion-card" onclick="useSuggestion('Buatkan jadwal meeting besok jam 10 sampai 12')">
+                            <div class="suggestion-icon">➕</div>
+                            <div class="suggestion-text">Buat Jadwal Baru</div>
                         </div>
-                        <div class="suggestion-card" onclick="useSuggestion('Berikan tips produktivitas')">
-                            <div class="suggestion-icon">⚡</div>
-                            <div class="suggestion-text">Tips Produktivitas</div>
+                        <div class="suggestion-card" onclick="useSuggestion('Tampilkan jadwal minggu ini')">
+                            <div class="suggestion-icon">📋</div>
+                            <div class="suggestion-text">Lihat Jadwal</div>
                         </div>
-                        <div class="suggestion-card" onclick="useSuggestion('Bagaimana cara mencapai tujuan dengan efektif?')">
-                            <div class="suggestion-icon">🎯</div>
-                            <div class="suggestion-text">Capai Tujuan</div>
+                        <div class="suggestion-card" onclick="useSuggestion('Update jadwal meeting jadi jam 2 siang')">
+                            <div class="suggestion-icon">✏️</div>
+                            <div class="suggestion-text">Update Jadwal</div>
                         </div>
-                        <div class="suggestion-card" onclick="useSuggestion('Analisis waktu saya')">
-                            <div class="suggestion-icon">📊</div>
-                            <div class="suggestion-text">Analisis Waktu</div>
+                        <div class="suggestion-card" onclick="useSuggestion('Hapus jadwal meeting hari ini')">
+                            <div class="suggestion-icon">🗑️</div>
+                            <div class="suggestion-text">Hapus Jadwal</div>
                         </div>
                     </div>
                 </div>
@@ -703,7 +784,7 @@
                     <div class="input-wrapper">
                         <textarea
                             id="messageInput"
-                            placeholder="Ketik pesan Anda di sini..."
+                            placeholder="Contoh: 'Buatkan jadwal meeting besok jam 10' atau 'Apa kabar?'"
                             rows="1"
                             onkeydown="handleKeyPress(event)"
                         ></textarea>
@@ -717,50 +798,102 @@
     </div>
 
     <script>
-        // N8N Webhook Configuration
-        const N8N_WEBHOOK_URL = 'https://your-n8n-instance.com/webhook/your-webhook-id';
+        // ==========================================
+        // CONFIGURATION
+        // ==========================================
+        const N8N_WEBHOOK_URL = 'https://mamaddolla.app.n8n.cloud/webhook/abang-ai-scheduler';
 
+        // ==========================================
+        // DEBUG FUNCTIONS
+        // ==========================================
+        function debugLog(message, type = 'info') {
+            const debugLog = document.getElementById('debugLog');
+            const timestamp = new Date().toLocaleTimeString('id-ID');
+            const className = type === 'error' ? 'debug-error' : type === 'success' ? 'debug-success' : 'debug-info';
+
+            const logEntry = document.createElement('div');
+            logEntry.className = `debug-log ${className}`;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+
+            debugLog.appendChild(logEntry);
+            debugLog.scrollTop = debugLog.scrollHeight;
+
+            console.log(`[${timestamp}] ${message}`);
+        }
+
+        function toggleDebug() {
+            const panel = document.getElementById('debugPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // ==========================================
+        // GLOBAL VARIABLES
+        // ==========================================
         let currentChatId = null;
         let chatHistoryData = JSON.parse(localStorage.getItem('abangAIChatHistory')) || [];
         let currentUser = null;
 
-        // Initialize
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
+            debugLog('🚀 Aplikasi dimulai', 'success');
+            debugLog(`📡 Webhook URL: ${N8N_WEBHOOK_URL}`, 'info');
             checkAuth();
             loadChatHistory();
             autoResizeTextarea();
         });
 
-        // Check authentication and load user data
+        // ==========================================
+        // AUTHENTICATION
+        // ==========================================
         function checkAuth() {
             const token = localStorage.getItem('auth_token');
             const userStr = localStorage.getItem('user');
 
             if (!token || !userStr) {
-                window.location.href = '/login.html';
-                return;
+                currentUser = {
+                    id: 'demo-user-' + Date.now(),
+                    name: 'Demo User',
+                    email: 'demo@abangai.com'
+                };
+                localStorage.setItem('user', JSON.stringify(currentUser));
+                localStorage.setItem('auth_token', 'demo-token-' + Date.now());
+                debugLog('👤 User baru dibuat: ' + currentUser.name, 'success');
+            } else {
+                try {
+                    currentUser = JSON.parse(userStr);
+                    debugLog('👤 User login: ' + currentUser.name, 'success');
+                } catch (error) {
+                    debugLog('❌ Error parsing user data: ' + error.message, 'error');
+                    currentUser = {
+                        id: 'demo-user-' + Date.now(),
+                        name: 'Demo User',
+                        email: 'demo@abangai.com'
+                    };
+                }
             }
 
-            try {
-                currentUser = JSON.parse(userStr);
-                document.getElementById('userName').textContent = currentUser.name || 'User';
-                document.getElementById('userEmail').textContent = currentUser.email || 'user@email.com';
-            } catch (error) {
-                console.error('Error parsing user data:', error);
-                window.location.href = '/login.html';
-            }
+            document.getElementById('userName').textContent = currentUser.name || 'User';
+            document.getElementById('userEmail').textContent = currentUser.email || 'user@email.com';
         }
 
-        // Logout function
+        // ==========================================
+        // LOGOUT
+        // ==========================================
         function logout() {
             if (confirm('Apakah Anda yakin ingin keluar?')) {
                 localStorage.removeItem('auth_token');
                 localStorage.removeItem('user');
-                window.location.href = '/login.html';
+                localStorage.removeItem('abangAIChatHistory');
+                debugLog('👋 User logout', 'info');
+                window.location.reload();
             }
         }
 
-        // Auto-resize textarea
+        // ==========================================
+        // TEXTAREA AUTO-RESIZE
+        // ==========================================
         function autoResizeTextarea() {
             const textarea = document.getElementById('messageInput');
             textarea.addEventListener('input', function() {
@@ -769,7 +902,9 @@
             });
         }
 
-        // Handle Enter key
+        // ==========================================
+        // KEYBOARD HANDLER
+        // ==========================================
         function handleKeyPress(event) {
             if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
@@ -777,7 +912,9 @@
             }
         }
 
-        // Toggle sidebar (mobile)
+        // ==========================================
+        // SIDEBAR TOGGLE (Mobile)
+        // ==========================================
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('overlay');
@@ -785,10 +922,11 @@
             overlay.classList.toggle('active');
         }
 
-        // Close sidebar when clicking overlay
         document.getElementById('overlay').addEventListener('click', toggleSidebar);
 
-        // New chat
+        // ==========================================
+        // NEW CHAT
+        // ==========================================
         function newChat() {
             currentChatId = Date.now().toString();
             document.getElementById('chatMessages').innerHTML = '';
@@ -803,15 +941,20 @@
             chatHistoryData.unshift(newChatData);
             saveChatHistory();
             loadChatHistory();
+            debugLog('💬 Chat baru dibuat: ' + currentChatId, 'success');
         }
 
-        // Use suggestion
+        // ==========================================
+        // USE SUGGESTION
+        // ==========================================
         function useSuggestion(text) {
             document.getElementById('messageInput').value = text;
             sendMessage();
         }
 
-        // Get user initials for avatar
+        // ==========================================
+        // GET USER INITIAL
+        // ==========================================
         function getUserInitial() {
             if (currentUser && currentUser.name) {
                 return currentUser.name.charAt(0).toUpperCase();
@@ -819,15 +962,24 @@
             return 'U';
         }
 
-        // Send message to N8N
+        // ==========================================
+        // SEND MESSAGE TO N8N - FIXED VERSION
+        // ==========================================
         async function sendMessage() {
             const input = document.getElementById('messageInput');
             const message = input.value.trim();
 
-            if (!message) return;
+            if (!message) {
+                debugLog('⚠️ Pesan kosong, tidak dikirim', 'error');
+                return;
+            }
 
+            debugLog('📤 Mengirim pesan: ' + message, 'info');
+
+            // Hide welcome screen
             document.getElementById('welcomeScreen').style.display = 'none';
 
+            // Create new chat if needed
             if (!currentChatId) {
                 currentChatId = Date.now().toString();
                 const newChatData = {
@@ -837,55 +989,125 @@
                     messages: []
                 };
                 chatHistoryData.unshift(newChatData);
+                debugLog('💬 Chat ID: ' + currentChatId, 'info');
             }
 
+            // Add user message
             addMessage('user', message);
             input.value = '';
             input.style.height = 'auto';
 
+            // Show typing indicator
             const typingId = showTypingIndicator();
             const sendBtn = document.getElementById('sendBtn');
             sendBtn.disabled = true;
 
+            // Prepare payload
+            const payload = {
+                message: message,
+                chatId: currentChatId,
+                userId: currentUser.id,
+                userName: currentUser.name,
+                timestamp: new Date().toISOString()
+            };
+
+            debugLog('📦 Payload: ' + JSON.stringify(payload), 'info');
+
             try {
+                debugLog('🌐 Menghubungi webhook...', 'info');
+
                 const response = await fetch(N8N_WEBHOOK_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
-                    body: JSON.stringify({
-                        message: message,
-                        chatId: currentChatId,
-                        userId: currentUser ? currentUser.id : null,
-                        userName: currentUser ? currentUser.name : null,
-                        timestamp: new Date().toISOString()
-                    })
+                    body: JSON.stringify(payload)
                 });
 
-                const data = await response.json();
+                debugLog(`📡 Status: ${response.status} ${response.statusText}`, 'info');
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    debugLog(`❌ Response Error: ${errorText}`, 'error');
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const contentType = response.headers.get('content-type');
+                debugLog(`📄 Content-Type: ${contentType}`, 'info');
+
+                let data;
+                if (contentType && contentType.includes('application/json')) {
+                    data = await response.json();
+                    debugLog('✅ Response JSON: ' + JSON.stringify(data), 'success');
+                } else {
+                    const textData = await response.text();
+                    debugLog('📝 Response Text: ' + textData, 'info');
+                    data = { response: textData };
+                }
+
                 removeTypingIndicator(typingId);
 
-                const aiResponse = data.response || data.message || 'Maaf, saya tidak dapat memproses permintaan Anda saat ini.';
+                // Extract AI response with multiple fallbacks
+                let aiResponse = '';
+                if (data.response) {
+                    aiResponse = data.response;
+                } else if (data.output) {
+                    aiResponse = data.output;
+                } else if (data.message) {
+                    aiResponse = data.message;
+                } else if (data.text) {
+                    aiResponse = data.text;
+                } else if (typeof data === 'string') {
+                    aiResponse = data;
+                } else {
+                    aiResponse = 'Pesan diterima! ✅\n\nData: ' + JSON.stringify(data, null, 2);
+                }
+
+                debugLog('✅ AI Response: ' + aiResponse, 'success');
+
+                // Add AI message
                 addMessage('ai', aiResponse);
                 saveChatMessage(message, aiResponse);
 
             } catch (error) {
-                console.error('Error:', error);
+                debugLog('❌ Error: ' + error.message, 'error');
+                debugLog('❌ Stack: ' + error.stack, 'error');
+
                 removeTypingIndicator(typingId);
-                addMessage('ai', 'Maaf, terjadi kesalahan. Pastikan webhook N8N sudah dikonfigurasi dengan benar.');
+
+                let errorMessage = '❌ Terjadi kesalahan saat menghubungi server.\n\n';
+                errorMessage += '🔍 **Detail Error:**\n';
+                errorMessage += `- ${error.message}\n\n`;
+                errorMessage += '📋 **Checklist Debug:**\n';
+                errorMessage += `1. ✓ URL Webhook: ${N8N_WEBHOOK_URL}\n`;
+                errorMessage += '2. ? Workflow N8N sudah aktif?\n';
+                errorMessage += '3. ? Webhook node dikonfigurasi POST?\n';
+                errorMessage += '4. ? Path webhook benar: /webhook/abang-ai-scheduler\n';
+                errorMessage += '5. ? Response mode: "Respond to Webhook"\n';
+                errorMessage += '6. ? Internet connection OK?\n\n';
+                errorMessage += '💡 **Solusi:**\n';
+                errorMessage += '- Buka N8N → Executions → Lihat error\n';
+                errorMessage += '- Test webhook dengan Postman/curl\n';
+                errorMessage += '- Cek browser console (F12) untuk detail\n';
+                errorMessage += '- Pastikan CORS diaktifkan jika perlu';
+
+                addMessage('ai', errorMessage);
             } finally {
                 sendBtn.disabled = false;
             }
         }
 
-        // Add message to chat
+        // ==========================================
+        // ADD MESSAGE TO CHAT
+        // ==========================================
         function addMessage(type, text) {
             const messagesContainer = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type}`;
 
             const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-            const initial = type === 'user' ? getUserInitial() : 'AI';
+            const initial = type === 'user' ? getUserInitial() : '📅';
 
             messageDiv.innerHTML = `
                 <div class="message-avatar">${initial}</div>
@@ -899,7 +1121,9 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        // Show typing indicator
+        // ==========================================
+        // TYPING INDICATOR
+        // ==========================================
         function showTypingIndicator() {
             const messagesContainer = document.getElementById('chatMessages');
             const typingDiv = document.createElement('div');
@@ -907,7 +1131,7 @@
             typingDiv.id = typingId;
             typingDiv.className = 'message ai';
             typingDiv.innerHTML = `
-                <div class="message-avatar">AI</div>
+                <div class="message-avatar">📅</div>
                 <div class="message-content">
                     <div class="message-bubble">
                         <div class="typing-indicator">
@@ -923,7 +1147,6 @@
             return typingId;
         }
 
-        // Remove typing indicator
         function removeTypingIndicator(typingId) {
             const typingElement = document.getElementById(typingId);
             if (typingElement) {
@@ -931,7 +1154,9 @@
             }
         }
 
-        // Save chat message
+        // ==========================================
+        // SAVE CHAT MESSAGE
+        // ==========================================
         function saveChatMessage(userMessage, aiResponse) {
             const currentChat = chatHistoryData.find(chat => chat.id === currentChatId);
             if (currentChat) {
@@ -950,12 +1175,17 @@
             }
         }
 
-        // Save to localStorage
+        // ==========================================
+        // SAVE TO LOCALSTORAGE
+        // ==========================================
         function saveChatHistory() {
             localStorage.setItem('abangAIChatHistory', JSON.stringify(chatHistoryData));
+            debugLog('💾 Chat history disimpan', 'success');
         }
 
-        // Load chat history
+        // ==========================================
+        // LOAD CHAT HISTORY
+        // ==========================================
         function loadChatHistory() {
             const today = new Date();
             const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -981,7 +1211,9 @@
             renderHistorySection('monthChats', monthChats);
         }
 
-        // Render history section
+        // ==========================================
+        // RENDER HISTORY SECTION
+        // ==========================================
         function renderHistorySection(containerId, chats) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
@@ -1003,7 +1235,9 @@
             });
         }
 
-        // Load specific chat
+        // ==========================================
+        // LOAD SPECIFIC CHAT
+        // ==========================================
         function loadChat(chatId) {
             currentChatId = chatId;
             const chat = chatHistoryData.find(c => c.id === chatId);
@@ -1020,18 +1254,22 @@
             });
 
             loadChatHistory();
+            debugLog('📖 Chat dimuat: ' + chatId, 'info');
 
             if (window.innerWidth <= 768) {
                 toggleSidebar();
             }
         }
 
-        // Delete chat
+        // ==========================================
+        // DELETE CHAT
+        // ==========================================
         function deleteChat(chatId) {
             if (confirm('Hapus percakapan ini?')) {
                 chatHistoryData = chatHistoryData.filter(chat => chat.id !== chatId);
                 saveChatHistory();
                 loadChatHistory();
+                debugLog('🗑️ Chat dihapus: ' + chatId, 'info');
 
                 if (currentChatId === chatId) {
                     newChat();
