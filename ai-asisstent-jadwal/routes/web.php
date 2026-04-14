@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatBotController;
 
 
 Route::get('/chat', function () {
@@ -19,4 +20,6 @@ Route::get('/login', function () {
 Route::get('/callback', function () {
     return view('callback');
 })->name('callback');
+
+Route::get('/tes-n8n', [ChatBotController::class, 'kirimPesan']);
 
