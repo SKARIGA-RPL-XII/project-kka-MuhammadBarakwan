@@ -22,4 +22,7 @@ Route::get('/callback', function () {
 })->name('callback');
 
 Route::get('/tes-n8n', [ChatBotController::class, 'kirimPesan']);
+Route::get('/chating', function () {
+    return view('halamanchat');
+});
 
