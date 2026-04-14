@@ -177,7 +177,7 @@
                     window.location.href = '/login';
                 }, 3000);
             });
-
+            z
         } else {
             // No token or error - redirect to login
             document.getElementById('loadingText').textContent = 'Invalid authentication';
